@@ -46,36 +46,55 @@ class RBT{
     RBTNode *root;
 
     void colorSwitch(RBTNode *node){
-        if(node->grandparent->color == Color::RED){
+        if(node== nullptr){
+            return;
+        }
+        node->uncle->color = Color::BLACK;
+        node->parent->color = Color::BLACK;
+        node->grandparent->color = Color::RED;
+        if(node->grandparent == root){
             node->grandparent->color = Color::BLACK;
         }
-        else{
-            node->grandparent->color = Color::RED;
-        }
-
-        if(node->parent->color == Color::RED){
-            node->parent->color = Color::BLACK;
-        }
-        else{
-            node->parent->color = Color::RED;
-        }
-
-        if(node->uncle->color == Color::RED){
-            node->uncle->color = Color::BLACK;
-        }
-        else{
-            node->uncle->color = Color::RED;
-        }
+        //not sure of the following
+        colorSwitch(node->grandparent);
     }
     void recolor(RBTNode *node){
-
+        node;
     }
 
     void leftRotation(RBTNode *node){
+        if(node->parent->right == node){
+            node->parent->right = node->right;
+            node->right = node->right->left;
+            node->parent->right->left=node;
+        }
+        else if(node->parent->left == node){
+            node->parent->left = node->right;
+            node->right = node->right->left;
+            node->parent->left->left=node;
+        }
+        else if(node == root){
+            root = node->right;
+            node->right = root->left;
 
+        }
     }
-    void rightRotation(RBTNode *node){
 
+    void rightRotation(RBTNode *node){
+        if(node->parent->right == node){
+            node->parent->right = node->left;
+            node->left = node->left->right;
+            node->parent->right->right=node;
+        }
+        else if(node->parent->left == node){
+            node->parent->left = node->left;
+            node->left = node->left->right;
+            node->parent->left->right=node;
+        }
+        else if(node == root){
+            root = node->left;
+            node->left = root->right;
+        }
     }
     void leftRightRotation(RBTNode *node){
 
@@ -147,6 +166,7 @@ class RBT{
                             rightLeftRotation(node);
                             break;
                     }
+
                 }
             }
         }
